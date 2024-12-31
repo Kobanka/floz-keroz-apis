@@ -17,7 +17,7 @@ class User(db.Model):
 
 class Expense(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
     description = db.Column(db.String(200), nullable=False)
     categorie = db.Column(db.String(50), nullable=False)
@@ -25,7 +25,7 @@ class Expense(db.Model):
 
 class Income(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(UUID(as_uuid=True), db.ForeignKey('user.id'), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     date = db.Column(db.Date, nullable=False)
     description = db.Column(db.String(200), nullable=False)
