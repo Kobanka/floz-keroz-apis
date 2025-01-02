@@ -8,6 +8,11 @@ bp = Blueprint('api', __name__)
 
 # --- UTILISATEURS ---
 
+<<<<<<< HEAD
+=======
+
+# Endpoint pour créer un utilisateur
+>>>>>>> upstream/main
 @bp.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json()
@@ -23,6 +28,10 @@ def create_user():
     return jsonify({'message': 'Utilisateur créé avec succès', 'id': str(user.id)}), 201
 
 
+<<<<<<< HEAD
+=======
+# Endpoint pour récupérer tous les utilisateurs
+>>>>>>> upstream/main
 @bp.route('/users', methods=['GET'])
 def get_users():
     users = User.query.all()
@@ -35,7 +44,12 @@ def get_users():
     } for user in users]), 200
 
 
+<<<<<<< HEAD
 @bp.route('/users/<string:id>', methods=['GET'])  # Utilisation de string pour compatibilité SQLite
+=======
+# Endpoint pour récupérer un utilisateur par son ID
+@bp.route('/users/<uuid:id>', methods=['GET'])
+>>>>>>> upstream/main
 def get_user_by_id(id):
     user = User.query.get(id)
     if not user:
@@ -49,7 +63,12 @@ def get_user_by_id(id):
     }), 200
 
 
+<<<<<<< HEAD
 @bp.route('/users/<string:id>', methods=['PUT'])
+=======
+# Endpoint pour mettre à jour un utilisateur
+@bp.route('/users/<uuid:id>', methods=['PUT'])
+>>>>>>> upstream/main
 def update_user(id):
     data = request.get_json()
     user = User.query.get(id)
@@ -64,7 +83,12 @@ def update_user(id):
     return jsonify({'message': 'Utilisateur mis à jour avec succès'}), 200
 
 
+<<<<<<< HEAD
 @bp.route('/users/<string:id>', methods=['DELETE'])
+=======
+# Endpoint pour supprimer un utilisateur
+@bp.route('/users/<uuid:id>', methods=['DELETE'])
+>>>>>>> upstream/main
 def delete_user(id):
     user = User.query.get(id)
     if not user:
@@ -76,12 +100,20 @@ def delete_user(id):
 
 # --- DÉPENSES ---
 
+<<<<<<< HEAD
+=======
+# Endpoint pour créer une dépense
+>>>>>>> upstream/main
 @bp.route('/expenses', methods=['POST'])
 def create_expense():
     data = request.get_json()
     try:
         expense = Expense(
+<<<<<<< HEAD
             user_id=str(data['user_id']),  # Convertir UUID en chaîne
+=======
+            user_id=UUID(data['user_id']),  # Convertir en UUID
+>>>>>>> upstream/main
             date=datetime.strptime(data['date'], '%Y-%m-%d'),
             description=data['description'],
             categorie=data['categorie'],
@@ -94,10 +126,17 @@ def create_expense():
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
+<<<<<<< HEAD
 
 @bp.route('/expenses', methods=['GET'])
 def get_all_expenses():
     expenses = Expense.query.all()
+=======
+# Endpoint pour récupérer toutes les dépenses
+@bp.route('/expenses', methods=['GET'])
+def get_all_expenses():
+    expenses = Expense.query.all()  # Récupérer toutes les dépenses
+>>>>>>> upstream/main
     return jsonify([{
         'id': str(expense.id),
         'user_id': str(expense.user_id),
@@ -107,8 +146,13 @@ def get_all_expenses():
         'montant': expense.montant
     } for expense in expenses]), 200
 
+<<<<<<< HEAD
 
 @bp.route('/expenses/<string:user_id>', methods=['GET'])
+=======
+# Endpoint pour récupérer les dépenses d'un utilisateur
+@bp.route('/expenses/<uuid:user_id>', methods=['GET'])
+>>>>>>> upstream/main
 def get_expenses(user_id):
     expenses = Expense.query.filter_by(user_id=user_id).all()
     return jsonify([{
@@ -119,8 +163,13 @@ def get_expenses(user_id):
         'montant': expense.montant
     } for expense in expenses]), 200
 
+<<<<<<< HEAD
 
 @bp.route('/expenses/<string:id>', methods=['PUT'])
+=======
+# Endpoint pour mettre à jour les dépenses d'un utilisateur
+@bp.route('/expenses/<uuid:id>', methods=['PUT'])
+>>>>>>> upstream/main
 def update_expense(id):
     data = request.get_json()
     expense = Expense.query.get(id)
@@ -134,7 +183,12 @@ def update_expense(id):
     return jsonify({'message': 'Dépense mise à jour avec succès'}), 200
 
 
+<<<<<<< HEAD
 @bp.route('/expenses/<string:id>', methods=['DELETE'])
+=======
+# Endpoint pour supprimer une dépense
+@bp.route('/expenses/<uuid:id>', methods=['DELETE'])
+>>>>>>> upstream/main
 def delete_expense(id):
     expense = Expense.query.get(id)
     if not expense:
@@ -146,12 +200,20 @@ def delete_expense(id):
 
 # --- REVENUS ---
 
+<<<<<<< HEAD
+=======
+# Endpoint pour créer un revenu
+>>>>>>> upstream/main
 @bp.route('/incomes', methods=['POST'])
 def create_income():
     data = request.get_json()
     try:
         income = Income(
+<<<<<<< HEAD
             user_id=str(data['user_id']),
+=======
+            user_id=UUID(data['user_id']),  # Convertir en UUID
+>>>>>>> upstream/main
             date=datetime.strptime(data['date'], '%Y-%m-%d'),
             description=data['description'],
             status=data['status'],
@@ -165,6 +227,7 @@ def create_income():
         db.session.rollback()
         return jsonify({'error': str(e)}), 400
 
+<<<<<<< HEAD
 
 @bp.route('/incomes', methods=['GET'])
 def get_all_incomes():
@@ -181,6 +244,10 @@ def get_all_incomes():
 
 
 @bp.route('/incomes/<string:user_id>', methods=['GET'])
+=======
+# Endpoint pour récupérer les revenus d'un utilisateur
+@bp.route('/incomes/<uuid:user_id>', methods=['GET'])
+>>>>>>> upstream/main
 def get_incomes(user_id):
     incomes = Income.query.filter_by(user_id=user_id).all()
     return jsonify([{
@@ -192,8 +259,26 @@ def get_incomes(user_id):
         'montant': income.montant
     } for income in incomes]), 200
 
+<<<<<<< HEAD
 
 @bp.route('/incomes/<string:id>', methods=['PUT'])
+=======
+# Endpoint pour récupérer tous les revenus
+@bp.route('/incomes', methods=['GET'])
+def get_all_incomes():
+    incomes = Income.query.all() # Récupérer tous les revenus
+    return jsonify([{
+        'id': str(income.id),
+        'user_id': str(income.user_id),
+        'date': income.date.strftime('%Y-%m-%d'),
+        'description': income.description,
+        'categorie': income.categorie,
+        'montant': income.montant
+    } for income in incomes]), 200
+
+# Endpoint pour mettre à jour les revenus d'un utilisateur
+@bp.route('/incomes/<uuid:id>', methods=['PUT'])
+>>>>>>> upstream/main
 def update_income(id):
     data = request.get_json()
     income = Income.query.get(id)
@@ -208,7 +293,12 @@ def update_income(id):
     return jsonify({'message': 'Revenu mis à jour avec succès'}), 200
 
 
+<<<<<<< HEAD
 @bp.route('/incomes/<string:id>', methods=['DELETE'])
+=======
+# Endpoint pour supprimer un revenu
+@bp.route('/incomes/<uuid:id>', methods=['DELETE'])
+>>>>>>> upstream/main
 def delete_income(id):
     income = Income.query.get(id)
     if not income:
